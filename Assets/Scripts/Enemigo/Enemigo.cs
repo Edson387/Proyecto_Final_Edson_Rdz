@@ -6,6 +6,10 @@ public class Enemigo : MonoBehaviour, IDañable
     [Header("Datos del enemigo")]
     public DatosEnemigo datos;
 
+    [Header("Partícula")]
+    [Tooltip("Tiempo en segundos antes de destruir la partícula de muerte")]
+    public float tiempoVidaParticula = 2f;
+
     public event Action OnEnemigoMuerto;
 
     private int vidaActual;
@@ -31,7 +35,10 @@ public class Enemigo : MonoBehaviour, IDañable
     private void Morir()
     {
         if (datos.particulaMuerte != null)
-            Instantiate(datos.particulaMuerte, transform.position, Quaternion.identity);
+        {
+            GameObject particula = Instantiate(datos.particulaMuerte, transform.position, Quaternion.identity);
+            Destroy(particula, tiempoVidaParticula);
+        }
 
         OnEnemigoMuerto?.Invoke();
         Destroy(gameObject);

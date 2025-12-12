@@ -17,9 +17,9 @@ public class WaveManager : MonoBehaviour
     public ModoControl modoControl = ModoControl.Automatico;
 
     private int enemigosVivos = 0;
+    private List<GameObject> enemigosActivos = new List<GameObject>();
     private GameManager gameManager;
 
-    
     public enum ModoControl { Automatico, Manual }
 
     private void Start()
@@ -65,7 +65,7 @@ public class WaveManager : MonoBehaviour
             yield return new WaitForSeconds(datos.tiempoEntreEnemigos);
         }
 
-        yield return new WaitUntil(() => enemigosVivos <= 0);
+        yield return new WaitUntil(() => enemigosActivos.Count == 0);
 
         oleadaActiva = false;
     }
@@ -77,12 +77,20 @@ public class WaveManager : MonoBehaviour
         GameObject nuevo = Instantiate(datos.enemigo.prefabEnemigo, punto.position, Quaternion.identity);
 
         Enemigo enemigo = nuevo.GetComponent<Enemigo>();
-        enemigo.OnEnemigoMuerto += EnemigoMuerto;
-    }
+        if (enemigo != null)
+        {
+            enemigosActivos.Add(nuevo);
 
-    private void EnemigoMuerto()
-    {
-        enemigosVivos--;
-        Debug.Log("Enemigos restantes: " + enemigosVivos);
+            enemigo.OnEnemigoMuerto += () =>
+            {
+                enemigosActivos.Remove(nuevo);
+                enemigosVivos--;
+                Debug.Log("Enemigos restantes: " + enemigosVivos);
+            };
+        }
+        else
+        {
+            Debug.LogWarning("El prefab de enemigo no tiene el script Enemigo asignado.");
+        }
     }
 }
