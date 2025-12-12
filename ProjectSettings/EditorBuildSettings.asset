@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Juego.unity
+    guid: ad615ddcd8bbee944bf1a17881c9f815
+  - enabled: 1
+    path: Assets/Scenes/Victoria.unity
+    guid: 9052065c1ac7798499019fc0340398f7
+  - enabled: 1
+    path: Assets/Scenes/Derrota.unity
+    guid: 0820c56644c87df4bb1f03181e4d4577
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
